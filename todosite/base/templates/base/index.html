@@ -1,0 +1,47 @@
+{% extends "base/base.html" %}
+{% block title %}Todo App - Toy Application{% endblock %}
+{% block description %}"Todo list"{% endblock %}
+<!-- Image and text -->
+{% block exit %}
+    <a class="btn btn-danger" href={% url 'base:logout' %} role="button">  Sair</a>
+{% endblock %}
+{% block nav_title %}Todo App - Toy application{% endblock %}
+
+{% block body %}
+        <div class="container-fluid">
+
+            {% for task in tasks %}
+                {% if task.user.username == username %}
+                    <br>
+                    <div class="card" style="width: 19rem;">
+                        <div class="card-body">
+                            <h5 align="center" class="card-title">{{ task.task_name }}
+                                <a href={% url 'base:delete' task.task_name %}>
+                                    <img src="/static/img/trash.png" alt="icone de liceira" width="25" height="25">
+                                </a>
+                            </h5>
+
+                            <p class="card-text">{{ task.description }}</p>
+                            <br>
+                            <p><h6 class="card-subtitle mb-2 text-muted">Issues</h6></p>
+                            {% for issue in issues %}
+                                {% if issue.task.task_name ==  task.task_name %}
+                                    <p><a href="#" class="card-link">* {{ issue.issue_description }}</a></p>
+                                {% endif %}
+                            {% endfor %}
+                            {% block new_issue %}{% endblock new_issue %}
+                        </div>
+                        <p align="center">
+                            <a href={% url 'base:new-issue' task.task_name %}>
+                                <img src="/static/img/plus.png" alt="icone de liceira" width="25" height="25">
+                            </a>
+                        </p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% block new %}{% endblock new %}
+        </div>
+        <p align="center"><a href={% url 'base:new-task' %}>
+            <img src="/static/img/plus.png" alt="icone de liceira" width="60" height="60"></a>
+        </p>
+  {% endblock %}

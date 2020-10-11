@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+{% block title %}Todo App - Cadastrar{% endblock %}
+{% block nav_title %}Todo App - Cadastar{% endblock %}
+{% block body %}
+    <form class="form-group" action="/sign-up-success/" method="post">
+        {% csrf_token %}
+        <br>
+        <div class="form-group" align="center">
+            <label for="exampleInputEmail1" class="form-control">Usuário</label>
+            {{ form.name }}
+            <br>
+        </div>
+        <div class="form-group" align="center">
+            <label for="inputPassword" class="form-control">Senha</label>
+            {{ form.passwd }}
+            <br>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </div>
+    </form>
+{% endblock %}

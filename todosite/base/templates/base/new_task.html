@@ -1,0 +1,8 @@
+{% extends 'base/index.html' %}
+{% block new %}
+    <form action="/new-task/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="OK">
+    </form>
+{% endblock new %}

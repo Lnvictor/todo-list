@@ -1,0 +1,10 @@
+{% extends 'base/index.html' %}
+{% block new_issue %}
+    {% if task.task_name == name %}
+        <form action={% url 'base:new-issue'  task.task_name %} method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="OK">
+        </form>
+    {% endif %}
+{% endblock %}

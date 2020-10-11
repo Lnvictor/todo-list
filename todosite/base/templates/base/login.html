@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+{% block title %}Todo App - Login{% endblock %}
+{% block nav_title %}Todo App - Login{% endblock %}
+{% block body %}
+    <form class="form-group" action="/login-validation/" method="post">
+        {% csrf_token %}
+        <br>
+        <div class="form-group" align="center">
+            <label for="exampleInputEmail1" class="form-control">Usuário</label>
+            {{ form.name }}
+            <br>
+        </div>
+        <div class="form-group" align="center">
+            <label for="inputPassword" class="form-control">Senha</label>
+            {{ form.passwd }}
+            <br>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Entrar</button>
+            <p>
+                <a href="/sign-up/">Não tem uma conta? Cadastre-se</a>
+            </p>
+        </div>
+    </form>
+{% endblock %}
