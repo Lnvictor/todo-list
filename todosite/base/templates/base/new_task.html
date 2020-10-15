@@ -1,13 +1,12 @@
 {% extends 'base/index.html' %}
 {% block new %}
     <br>
-    <div class="card" style="width: 30rem;margin-left:26rem">
+    <div class="card" style="width: 30rem;margin-left:center">
         <form action="/new-task/" method="post">
             {% csrf_token %}
         <div class="card-body">
             <h5 class="card-title">Título <br> {{ form.task_name }}</h5>
             <p class="card-text"> Descrição <br> {{ form.description }}</p>
-            <p class="card-text">Data <br> {{ form.pub_date }}</p>
             <p class="card-text">Status <br>{{ form.status }}</p>
 
             <input type="submit" value="OK">

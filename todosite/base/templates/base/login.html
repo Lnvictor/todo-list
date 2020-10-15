@@ -5,6 +5,11 @@
     <form class="form-group" action="/login-validation/" method="post">
         {% csrf_token %}
         <br>
+        {% if message %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
         <div class="form-group" align="center">
             <label for="exampleInputEmail1" class="form-control">Usuário</label>
             {{ form.name }}

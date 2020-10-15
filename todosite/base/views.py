@@ -1,3 +1,5 @@
+from functools import reduce
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import Task, Issue
@@ -14,7 +16,7 @@ def home(request):
 
     context = {
         "username": request.user.username,
-        "tasks": Task.objects.all().order_by("-pub_date"),
+        "tasks": Task.objects.all(),
         "issues": Issue.objects.all(),
     }
     return render(request, "base/index.html", context)
@@ -27,18 +29,29 @@ def get_sign_up(request):
             return HttpResponseRedirect("/sign-up-success/")
     else:
         form = SignUpForm()
-
     return render(request, "base/sign.html", {"form": form})
 
 
-def get_login(request):
+def get_login(request, *args):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.isValid():
             return HttpResponseRedirect("/login-validation/")
     else:
         form = SignUpForm()
-    return render(request, "base/login.html", {"form": form})
+
+    return render(
+        request,
+        "base/login.html",
+        {
+            "form": form,
+            "message": args[0],
+        },
+    )
+
+
+def login_fail(request):
+    return get_login(request, "O login falhou, por favor tente novamente")
 
 
 def sign_sucefull(request):
@@ -50,15 +63,16 @@ def sign_sucefull(request):
 
 
 def validate_login(request):
-    user = authenticate(
+    anonymous_user = authenticate(
         request=request,
         username=request.POST.get("name"),
         password=request.POST.get("passwd"),
     )
-    login(request, user)
-    if user.is_authenticated:
+    if anonymous_user is not None:
+        user = User.objects.filter(password=anonymous_user.password)[0]
+        login(request, user)
         return HttpResponseRedirect("/")
-    return HttpResponseRedirect("/login/")
+    return HttpResponseRedirect("/login-failed/")
 
 
 def set_logout(request):
@@ -123,6 +137,15 @@ def new_issue(request, name):
     return render(request, "base/new_issue.html", context)
 
 
-def remove_task(request, name: str):
+def remove_task(request, name: str) -> None:
     task = Task.objects.filter(task_name=name).delete()
+    return HttpResponseRedirect("/")
+
+
+def change_status_of_task(request, name: str) -> None:
+    choices = ("Pending", "Done")
+    task = Task.objects.filter(task_name=name)[0]
+    l = list(map(lambda x: x == task.status, choices))
+    task.status = choices[l.index(False)]
+    task.save()
     return HttpResponseRedirect("/")

@@ -4,7 +4,6 @@
         <form action={% url 'base:new-issue'  task.task_name %} method="post">
             {% csrf_token %}
             <p class="card-text"> Descrição {{ form.description }}</p>
-            <p class="card-text"> Data <br> {{ form.pub_date }}</p>
             <p class="card-text"> Status <br>{{ form.status }}</p>
 
             <input type="submit" value="OK">
