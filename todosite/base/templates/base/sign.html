@@ -1,10 +1,15 @@
 {% extends "base/base.html" %}
 {% block title %}Todo App - Cadastrar{% endblock %}
-{% block nav_title %}Todo App - Cadastar{% endblock %}
+{% block nav_title %}Todo App - Cadastrar{% endblock %}
 {% block body %}
     <form class="form-group" action="/sign-up-success/" method="post">
         {% csrf_token %}
         <br>
+        {% if message %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
         <div class="form-group" align="center">
             <label for="exampleInputEmail1" class="form-control">Usuário</label>
             {{ form.name }}

@@ -6,8 +6,9 @@ from .models import Task, Issue
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
+from django.db.utils import IntegrityError
 from .forms import SignUpForm, NewTaskForm, NewIssueForm
-from .admin import create_task, create_issue, get_task_by_name
+from .admin import create_task, create_issue, get_task_by_name, user_existis
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -30,7 +31,7 @@ def home(request: HttpRequest) -> HttpResponse:
     return render(request, "base/index.html", context)
 
 
-def get_sign_up(request: HttpRequest) -> HttpResponse:
+def get_sign_up(request: HttpRequest, *args: list) -> HttpResponse:
     """
     Sign Up page view, responsible for renders the sign up form
 
@@ -41,11 +42,51 @@ def get_sign_up(request: HttpRequest) -> HttpResponse:
     """
     if request.method == "POST":
         form = SignUpForm(request.POST)
-        if form.isValid():
+        if form.is_valid():
             return HttpResponseRedirect("/sign-up-success/")
+
     else:
         form = SignUpForm()
-    return render(request, "base/sign.html", {"form": form})
+    return render(
+        request,
+        "base/sign.html",
+        {
+            "form": form,
+            "message": lambda: args[0] if len(args) > 0 else None,
+        },
+    )
+
+
+def sign_up_fail(request: HttpRequest) -> HttpResponse:
+    """
+    render sign up form with an warning message
+
+    Args:
+        - request (HttpRequest)
+
+    Return: HttpResponse
+    """
+    return get_sign_up(request, "Este username já está sendo utilizado")
+
+
+def sign_sucessfull(request: HttpRequest) -> HttpResponse:
+    """
+    User's creation view, called after sign up form submission
+
+    Args:
+        - request (HttpRequest)
+
+    Return: HttpResponse
+    """
+
+    username = request.POST.get("name")
+    password = make_password(request.POST.get("passwd"))
+
+    try:
+        User.objects.create(username=username, password=password)
+        return home(request)
+    except IntegrityError:
+        return sign_up_fail(request)
 
 
 def get_login(request: HttpRequest, *args: list) -> HttpResponse:
@@ -53,11 +94,11 @@ def get_login(request: HttpRequest, *args: list) -> HttpResponse:
     Login page view, responsible for renders the login form
 
     Args:
-        - request (HttpRequest): Web request for the login page
+    - request (HttpRequest): Web request for the login page
 
-        - Optional Arguments:
-            - message: message displayed if the previous login failed
-            - default value: None
+    - Optional Arguments:
+    - message: message displayed if the previous login failed
+    - default value: None
 
     Return: (HttpResponse) Response that renders the login template
     """
@@ -89,22 +130,6 @@ def login_fail(request: HttpRequest) -> HttpResponse:
     Return: HttpResponse
     """
     return get_login(request, "O login falhou, por favor tente novamente")
-
-
-def sign_sucefull(request: HttpRequest) -> HttpResponse:
-    """
-    User's creation view, called after sign up form submission
-
-    Args:
-        - request (HttpRequest)
-
-    Return: HttpResponse
-    """
-    username = request.POST.get("name")
-    passwd = make_password(request.POST.get("passwd"))
-
-    User.objects.create(username=username, password=passwd)
-    return home(request)
 
 
 def validate_login(request: HttpRequest) -> HttpResponseRedirect:
@@ -200,7 +225,7 @@ def new_issue(request: HttpRequest, task_name: str) -> HttpResponse:
         "tasks": Task.objects.all(),
         "issues": Issue.objects.all(),
         "form": form,
-        "name": name,
+        "name": task_name,
     }
     return render(request, "base/new_issue.html", context)
 

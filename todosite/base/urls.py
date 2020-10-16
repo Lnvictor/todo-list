@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     home,
     get_sign_up,
-    sign_sucefull,
+    sign_sucessfull,
     get_login,
     validate_login,
     set_logout,
@@ -22,10 +22,10 @@ urlpatterns = [
     path("login/", get_login, name="login"),
     path("login-failed/", login_fail, name="login-failed"),
     path("login-validation/", validate_login, name="login_validation"),
-    path("sign-up-success/", sign_sucefull, name="login_sucefull"),
+    path("sign-up-success/", sign_sucessfull, name="login_sucefull"),
     path("logout/", set_logout, name="logout"),
     path("new-task/", new_task, name="new-task"),
-    path("new-issue/<str:name>/", new_issue, name="new-issue"),
+    path("new-issue/<str:task_name>/", new_issue, name="new-issue"),
     path("delete-task/<str:name>", remove_task, name="delete"),
     path(
         "change-status/<str:name>",

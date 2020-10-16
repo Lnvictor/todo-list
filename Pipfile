@@ -15,6 +15,7 @@ dj-database-url = "*"
 python-decouple = "*"
 install = "*"
 psycopg2-binary = "*"
+ipdb = "*"
 
 [requires]
 python_version = "3.8"

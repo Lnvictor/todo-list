@@ -42,3 +42,8 @@ def create_issue(
         status=status,
     )
     issue.save()
+
+
+def user_existis(username: str) -> bool:
+    l = User.objects.filter(username=username)
+    return len(list(l)) > 0
