@@ -1,7 +1,7 @@
 from functools import reduce
 
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 from .models import Task, Issue
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -10,7 +10,15 @@ from .forms import SignUpForm, NewTaskForm, NewIssueForm
 from .admin import create_task, create_issue, get_task_by_name
 
 
-def home(request):
+def home(request: HttpRequest) -> HttpResponse:
+    """
+    Application homepage view
+
+    Args:
+        - request (HttpRequest): Web request for homepage
+
+    Return: (HttpResponse) Web Response that renders the HomePage template
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect("/login/")
 
@@ -22,7 +30,15 @@ def home(request):
     return render(request, "base/index.html", context)
 
 
-def get_sign_up(request):
+def get_sign_up(request: HttpRequest) -> HttpResponse:
+    """
+    Sign Up page view, responsible for renders the sign up form
+
+    Args:
+        - request (HttpRequest): Web request for the sign uo form page
+
+    Return: (HttpResponse) Web Response that renders the sign up template
+    """
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.isValid():
@@ -32,7 +48,19 @@ def get_sign_up(request):
     return render(request, "base/sign.html", {"form": form})
 
 
-def get_login(request, *args):
+def get_login(request: HttpRequest, *args: list) -> HttpResponse:
+    """
+    Login page view, responsible for renders the login form
+
+    Args:
+        - request (HttpRequest): Web request for the login page
+
+        - Optional Arguments:
+            - message: message displayed if the previous login failed
+            - default value: None
+
+    Return: (HttpResponse) Response that renders the login template
+    """
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.isValid():
@@ -50,11 +78,28 @@ def get_login(request, *args):
     )
 
 
-def login_fail(request):
+def login_fail(request: HttpRequest) -> HttpResponse:
+    """
+    calls get_login view with an login failed warning message
+
+    Args:
+
+        - request (HttpRequest)
+
+    Return: HttpResponse
+    """
     return get_login(request, "O login falhou, por favor tente novamente")
 
 
-def sign_sucefull(request):
+def sign_sucefull(request: HttpRequest) -> HttpResponse:
+    """
+    User's creation view, called after sign up form submission
+
+    Args:
+        - request (HttpRequest)
+
+    Return: HttpResponse
+    """
     username = request.POST.get("name")
     passwd = make_password(request.POST.get("passwd"))
 
@@ -62,7 +107,15 @@ def sign_sucefull(request):
     return home(request)
 
 
-def validate_login(request):
+def validate_login(request: HttpRequest) -> HttpResponseRedirect:
+    """
+    view responsible for validate the user authentication credentials.
+
+    Args:
+        - request (HttpRequest)
+
+    Return: (HttpResponse)
+    """
     anonymous_user = authenticate(
         request=request,
         username=request.POST.get("name"),
@@ -75,12 +128,23 @@ def validate_login(request):
     return HttpResponseRedirect("/login-failed/")
 
 
-def set_logout(request):
+def set_logout(request: HttpRequest) -> HttpResponseRedirect:
+    """
+    realizes the logout of plataform
+
+    Args:
+        - request (HttpRequest)
+
+    Return: HttpResponseRedirect
+    """
     logout(request)
     return HttpResponseRedirect("/login")
 
 
-def new_task(request):
+def new_task(request: HttpRequest) -> HttpResponse:
+    """
+    Insert some docstr here
+    """
     if request.method == "POST":
         form = NewTaskForm(request.POST)
         task_name = request.POST.get("task_name")
@@ -108,13 +172,17 @@ def new_task(request):
     return render(request, "base/new_task.html", context)
 
 
-def new_issue(request, name):
+def new_issue(request: HttpRequest, task_name: str) -> HttpResponse:
+    """
+    Insert some docstr here
+
+    """
     if request.method == "POST":
         form = NewIssueForm(request.POST)
         description = request.POST.get("description")
         pub_date = request.POST.get("pub_date")
         status = request.POST.get("status")
-        task = get_task_by_name(name)
+        task = get_task_by_name(task_name)
 
         if task is not None:
             create_issue(
@@ -137,12 +205,21 @@ def new_issue(request, name):
     return render(request, "base/new_issue.html", context)
 
 
-def remove_task(request, name: str) -> None:
+def remove_task(request: HttpRequest, name: str) -> HttpResponse:
     task = Task.objects.filter(task_name=name).delete()
     return HttpResponseRedirect("/")
 
 
-def change_status_of_task(request, name: str) -> None:
+def change_status_of_task(request, name: str) -> HttpResponse:
+    """
+    Change Task status
+
+    Args:
+        - request (HttpRequest)
+        - task_name (str): task name to be apllied the change
+
+    Return: HttpResponse
+    """
     choices = ("Pending", "Done")
     task = Task.objects.filter(task_name=name)[0]
     l = list(map(lambda x: x == task.status, choices))
