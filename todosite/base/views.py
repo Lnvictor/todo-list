@@ -73,7 +73,7 @@ def get_login(request: HttpRequest, *args: list) -> HttpResponse:
         "base/login.html",
         {
             "form": form,
-            "message": args[0],
+            "message": lambda: args[0] if len(args) > 0 else None,
         },
     )
 
@@ -125,7 +125,7 @@ def validate_login(request: HttpRequest) -> HttpResponseRedirect:
         user = User.objects.filter(password=anonymous_user.password)[0]
         login(request, user)
         return HttpResponseRedirect("/")
-    return HttpResponseRedirect("/login-failed/")
+    return HttpResponseRedirect("/login-failed")
 
 
 def set_logout(request: HttpRequest) -> HttpResponseRedirect:
