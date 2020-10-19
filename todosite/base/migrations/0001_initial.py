@@ -8,27 +8,59 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Task',
+            name="Task",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('task_name', models.CharField(max_length=30)),
-                ('descripton', models.TextField()),
-                ('pub_date', models.DateField(verbose_name='date published')),
-                ('status', models.CharField(choices=[('Done', 'Done'), ('Pending', 'Pending')], max_length=120)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("task_name", models.CharField(max_length=30)),
+                ("descripton", models.TextField()),
+                ("pub_date", models.DateField(verbose_name="date published")),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("Done", "Done"), ("Pending", "Pending")],
+                        max_length=120,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Issue',
+            name="Issue",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('pub_date', models.DateField(verbose_name='date published')),
-                ('status', models.CharField(choices=[('Done', 'Done'), ('Pending', 'Pending')], max_length=120)),
-                ('task', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.task')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("pub_date", models.DateField(verbose_name="date published")),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("Done", "Done"), ("Pending", "Pending")],
+                        max_length=120,
+                    ),
+                ),
+                (
+                    "task",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="base.task"
+                    ),
+                ),
             ],
         ),
     ]

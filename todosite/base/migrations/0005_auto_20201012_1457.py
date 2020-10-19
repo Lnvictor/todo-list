@@ -6,18 +6,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('base', '0004_task_user'),
+        ("base", "0004_task_user"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='issue',
-            name='status',
-            field=models.CharField(choices=[('Done', 'Done'), ('Pending', 'Pending')], default='Pending', max_length=120),
+            model_name="issue",
+            name="status",
+            field=models.CharField(
+                choices=[("Done", "Done"), ("Pending", "Pending")],
+                default="Pending",
+                max_length=120,
+            ),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='status',
-            field=models.CharField(choices=[('Done', 'Done'), ('Pending', 'Pending')], default='Pending', max_length=120),
+            model_name="task",
+            name="status",
+            field=models.CharField(
+                choices=[("Done", "Done"), ("Pending", "Pending")],
+                default="Pending",
+                max_length=120,
+            ),
         ),
     ]

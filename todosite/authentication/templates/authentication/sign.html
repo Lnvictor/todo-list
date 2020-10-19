@@ -1,8 +1,10 @@
 {% extends "base/base.html" %}
-{% block title %}Todo App - Login{% endblock %}
-{% block nav_title %}Todo App - Login{% endblock %}
+{% block title %}Todo App - Cadastrar{% endblock %}
+{% block nav_title %}
+    Todo App - Cadastrar
+{% endblock %}
 {% block body %}
-    <form class="form-group" action="/login-validation/" method="post">
+    <form class="form-group" action="/auth/sign-up-success/" method="post">
         {% csrf_token %}
         <br>
         {% if message %}
@@ -21,10 +23,7 @@
             <br>
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Entrar</button>
-            <p>
-                <a href="/sign-up/">Não tem uma conta? Cadastre-se</a>
-            </p>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
         </div>
     </form>
 {% endblock %}

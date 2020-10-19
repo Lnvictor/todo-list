@@ -19,4 +19,10 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("todosite.base.urls"), name="base"),
+    path("auth/", include("todosite.authentication.urls"), name="login"),
+    path(
+        "profile/",
+        include("todosite.user_profile.urls"),
+        name="user-profile",
+    ),
 ]

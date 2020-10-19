@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "todosite.base",
+    "todosite.authentication",
+    "todosite.user_profile",
     "whitenoise.runserver_nostatic",
 ]
 

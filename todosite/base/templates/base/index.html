@@ -3,7 +3,7 @@
 {% block description %}"Todo list"{% endblock %}
 <!-- Image and text -->
 {% block exit %}
-    <a class="btn btn-danger" href={% url 'base:logout' %} role="button">  Sair</a>
+    <a class="btn btn-danger" href={% url 'authentication:logout' %} role="button">  Sair</a>
 {% endblock %}
 {% block nav_title %}Todo App - Toy application{% endblock %}
 
@@ -38,7 +38,7 @@
                             <br>
                             <p><h6 class="card-subtitle mb-2 text-muted">Issues</h6></p>
                             {% for issue in issues %}
-                                {% if issue.task.task_name ==  task.task_name %}
+                                {% if issue.task ==  task %}
                                     <p><a href="#" class="card-link">* {{ issue.issue_description }}</a></p>
                                 {% endif %}
                             {% endfor %}

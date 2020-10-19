@@ -21,12 +21,12 @@
   </head>
   <body>
       <nav class="navbar navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href={% url  'base:home' %}>
               <img src="/static/img/icon.png" alt="Logo da aplicação" width="50" height="50">
               {% block nav_title %}{% endblock %}
           </a>
           <p align="right">
-              <a class="navbar-brand">{{ username }}  </a>
+              <a class="navbar-brand" href={% url 'user_profile:profile-index' %}>{{ username }}  </a>
               {% block exit %}{% endblock %}
           </p>
       </nav>

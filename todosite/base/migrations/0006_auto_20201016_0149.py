@@ -6,26 +6,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('base', '0005_auto_20201012_1457'),
+        ("base", "0005_auto_20201012_1457"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='issue',
-            options={'ordering': ['-pub_date']},
+            name="issue",
+            options={"ordering": ["-pub_date"]},
         ),
         migrations.AlterModelOptions(
-            name='task',
-            options={'ordering': ['-pub_date']},
+            name="task",
+            options={"ordering": ["-pub_date"]},
         ),
         migrations.AlterField(
-            model_name='issue',
-            name='pub_date',
-            field=models.DateField(auto_now_add=True, verbose_name='date published'),
+            model_name="issue",
+            name="pub_date",
+            field=models.DateField(auto_now_add=True, verbose_name="date published"),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='pub_date',
-            field=models.DateField(auto_now_add=True, verbose_name='date published'),
+            model_name="task",
+            name="pub_date",
+            field=models.DateField(auto_now_add=True, verbose_name="date published"),
         ),
     ]
