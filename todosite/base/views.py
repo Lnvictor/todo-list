@@ -1,13 +1,11 @@
-from functools import reduce
-
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
+from django.shortcuts import render
+
+
 from .models import Task, Issue
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.hashers import make_password
 from .forms import SignUpForm, NewTaskForm, NewIssueForm
 from .facade import create_task, create_issue, get_task_by_name
-from django.contrib.auth.decorators import login_required
 
 
 @login_required(login_url="/auth/login/")
@@ -30,7 +28,12 @@ def home(request: HttpRequest) -> HttpResponse:
 
 def new_task(request: HttpRequest) -> HttpResponse:
     """
-    Insert some docstr here
+    Create new task card for user
+
+    Args:
+        - request: HttpRequest
+
+    return: HttpResponse
     """
     if request.method == "POST":
         form = NewTaskForm(request.POST)
@@ -61,8 +64,13 @@ def new_task(request: HttpRequest) -> HttpResponse:
 
 def new_issue(request: HttpRequest, task_name: str) -> HttpResponse:
     """
-    Insert some docstr here
+    Create a new Issue for some task
 
+    Args:
+        - request (HttpRequest)
+        - task_name (str): Parent task for the created issue
+
+    return: HttpResponse
     """
     if request.method == "POST":
         form = NewIssueForm(request.POST)
@@ -93,6 +101,15 @@ def new_issue(request: HttpRequest, task_name: str) -> HttpResponse:
 
 
 def remove_task(request: HttpRequest, name: str) -> HttpResponse:
+    """
+    Remove task
+
+    Args:
+        - request (HttpRequest)
+        - name (str): task name
+
+    return HttpResponse
+    """
     task = Task.objects.filter(task_name=name).delete()
     return HttpResponseRedirect("/")
 
@@ -113,7 +130,3 @@ def change_status_of_task(request, name: str) -> HttpResponse:
     task.status = choices[l.index(False)]
     task.save()
     return HttpResponseRedirect("/")
-
-
-def delete_user(request):
-    ...

@@ -9,6 +9,14 @@ from ..base.models import Task, Issue
 
 @login_required(login_url="../../auth/login/")
 def get_profile(request: HttpRequest) -> HttpResponse:
+    """
+    loads the user profile
+
+    Args:
+        - request (HttpRequest)
+
+    return: HttpResponse
+    """
     user = request.user
     tasks = Task.objects.filter(user=user)
 
@@ -26,6 +34,9 @@ def get_profile(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def delete_account(request: HttpRequest, username: str) -> HttpResponse:
+    """
+    Insert some doc here
+    """
     name = User.objects.filter(username=username)
     name[0].delete()
     return HttpResponseRedirect("../../../auth/login/")

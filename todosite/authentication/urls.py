@@ -18,5 +18,5 @@ urlpatterns = [
     path("login-failed/", login_fail, name="login-failed"),
     path("logout/", set_logout, name="logout"),
     path("login-validation/", validate_login, name="login_validation"),
-    path("sign-up-success/", sign_sucessfull, name="login_sucefull"),
+    path("sign-up-success/", sign_sucessfull, name="sign_successfull"),
 ]
