@@ -9,6 +9,7 @@ This application is avaliable on [www.to-dosite.herokuapp.com/](https://www.to-d
      - clone this repository
      - pip install pipenv
      - pipenv install -d
+     - cp contrib/env-sample .env
 
 #### How to run
 
