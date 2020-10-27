@@ -17,6 +17,7 @@ python-decouple = "*"
 install = "*"
 psycopg2-binary = "*"
 ipdb = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.8"

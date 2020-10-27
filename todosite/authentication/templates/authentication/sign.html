@@ -4,26 +4,31 @@
     Todo App - Cadastrar
 {% endblock %}
 {% block body %}
-    <form class="form-group" action="/auth/sign-up-success/" method="post">
-        {% csrf_token %}
-        <br>
-        {% if message %}
-            <div class="alert alert-danger" role="alert">
-                {{ message }}
+    <br><br>
+    <div class="card" style="width: 15rem; margin: 0 auto; border-width:2px; border-color:#0a106e;">
+        <form class="form-group" action="/auth/sign-up-success/" method="post">
+            {% csrf_token %}
+            <br>
+            {% if message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <h5 align="center" class="card-title">Cadastre - se</h5><br>
+            <div class="form-group" align="center">
+                <label for="exampleInputEmail1" class="form-control" style= "width: 13rem;border-color:black;">Usuário</label>
+                {{ form.name }}
+                <br>
             </div>
-        {% endif %}
-        <div class="form-group" align="center">
-            <label for="exampleInputEmail1" class="form-control">Usuário</label>
-            {{ form.name }}
+            <div class="form-group" align="center">
+                <label for="inputPassword" class="form-control" style=" width: 13rem;border-color:black;">Senha</label>
+                {{ form.passwd }}
+                <br>
+            </div>
             <br>
-        </div>
-        <div class="form-group" align="center">
-            <label for="inputPassword" class="form-control">Senha</label>
-            {{ form.passwd }}
-            <br>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-        </div>
-    </form>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

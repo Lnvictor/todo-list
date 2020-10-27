@@ -8,6 +8,8 @@ from .views import (
     validate_login,
     set_logout,
     login_fail,
+    passwd_recovery,
+    set_change_in_password,
 )
 
 app_name = "authentication"
@@ -19,4 +21,10 @@ urlpatterns = [
     path("logout/", set_logout, name="logout"),
     path("login-validation/", validate_login, name="login_validation"),
     path("sign-up-success/", sign_sucessfull, name="sign_successfull"),
+    path("passwd-recovery/", passwd_recovery, name="passwd-recovery"),
+    path(
+        "set-change-password/",
+        set_change_in_password,
+        name="set-change-password",
+    ),
 ]

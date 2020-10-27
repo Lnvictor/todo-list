@@ -6,7 +6,7 @@ from django.db.utils import IntegrityError
 from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 
 
-from .forms import SignUpForm
+from .forms import SignUpForm, RecoveryPasswordForm
 from .facade import user_existis, remove_user
 from ..base.views import home
 
@@ -144,3 +144,47 @@ def set_logout(request: HttpRequest) -> HttpResponseRedirect:
     """
     logout(request)
     return HttpResponseRedirect("/auth/login/")
+
+
+def passwd_recovery(request: HttpRequest) -> HttpResponse:
+    """
+    Shows the password recovery FOrm
+
+    Args:
+    Return:
+    """
+    if request.method == "POST":
+        form = RecoveryPasswordForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect("/auth/set-change-password")
+    else:
+        form = RecoveryPasswordForm()
+
+    return render(
+        request,
+        "authentication/recovery_password.html",
+        context={"form": RecoveryPasswordForm()},
+    )
+
+
+def set_change_in_password(request: HttpRequest) -> HttpResponse:
+    """"""
+    username = request.POST.get("username")
+    password = request.POST.get("new_password")
+    confirm_password = request.POST.get("confirm_password")
+
+    if password == confirm_password:
+        all_users = list(User.objects.all())
+        users = [user.username == username for user in all_users]
+        user = all_users[users.index(True)]
+        user.password = make_password(request.POST.get("new_password"))
+        user.save()
+        return HttpResponseRedirect("/auth/login/")
+
+    context = {
+        "form": RecoveryPasswordForm(),
+        "message": "Nova Senha e Confirmação não coincidem!",
+    }
+    return render(
+        request, "authentication/recovery_password.html", context=context
+    )
