@@ -2,7 +2,7 @@
 
 A toy application that implements a task manager...
 
-This application is avaliable on [www.to-dosite.herokuapp.com/](https://www.to-dosite.herokuapp.com/)
+This application is avaliable on [www.to-dosite.herokuapp.com/](https://to-dosite.herokuapp.com)
 
 ### Setup project development ambient:
 
