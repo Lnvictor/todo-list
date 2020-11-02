@@ -185,6 +185,4 @@ def set_change_in_password(request: HttpRequest) -> HttpResponse:
         "form": RecoveryPasswordForm(),
         "message": "Nova Senha e Confirmação não coincidem!",
     }
-    return render(
-        request, "authentication/recovery_password.html", context=context
-    )
+    return render(request, "authentication/recovery_password.html", context=context)

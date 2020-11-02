@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 from django.test import TestCase
 from django.urls import reverse
 from model_mommy import mommy
@@ -15,6 +16,7 @@ def resp_sign_up(client, db):
 @pytest.fixture
 def resp_create_user(client, db):
     user = mommy.make(User)
+    user.username = "testezin"
     user.set_password("Senha")
     user.save()
     return client.get(reverse("authentication:sign_successfull"))

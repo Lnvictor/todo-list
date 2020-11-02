@@ -133,6 +133,15 @@ def change_status_of_task(request, pk: int) -> HttpResponse:
 
 
 def change_status_of_issue(request: HttpRequest, pk: int) -> HttpResponse:
+    """
+    Change the issue current status
+
+    Args:
+        - request (HttpRequest)
+        - pk: issue id
+
+    Return: HttpResponse
+    """
     choices = ("Pending", "Done")
     issue = Issue.objects.filter(pk=pk)[0]
     l = list(map(lambda x: x == issue.status, choices))
@@ -142,6 +151,9 @@ def change_status_of_issue(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 def delete_issue(request: HttpRequest, pk: int):
+    """
+    Delets a issue for a given pk
+    """
     issue = Issue.objects.filter(pk=pk)[0]
     issue.delete()
     return HttpResponseRedirect("/")

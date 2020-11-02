@@ -1,0 +1,16 @@
+{% extends 'user_profile/base_profile.html' %}
+{% block username_field %}
+
+{% if message is not None %}
+        <div class="alert alert-danger" role="alert">
+              {{ message }}
+        </div>
+{% endif %}
+
+<form class="form-group" action={% url 'user_profile:change-username' pk %} method="post">
+        {% csrf_token %}
+        {{ form.new_name }}
+        <button type="submit" class="btn btn-primary">Mudar</button>
+</form>
+{% endblock %}
+

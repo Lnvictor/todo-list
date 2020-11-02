@@ -26,9 +26,7 @@ def get_task_by_name(task_name: str) -> Task:
             return task
 
 
-def create_issue(
-    issue_description: str, pub_date, status: str, task: Task
-) -> None:
+def create_issue(issue_description: str, pub_date, status: str, task: Task) -> None:
 
     issue = Issue(
         task=task,

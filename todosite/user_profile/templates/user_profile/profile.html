@@ -1,36 +1,6 @@
-{% extends 'base/base.html' %}
-
-{% block title %}Todo App - Profile{% endblock %}
-{% block description %}"Todo list - Profile"{% endblock %}
-<!-- Image and text -->
-{% block exit %}
-    <a class="btn btn-danger" href={% url 'authentication:logout' %} role="button">  Sair</a>
-{% endblock %}
-{% block nav_title %}Profile{% endblock %}
-
-{% block body %}
+{% extends 'user_profile/base_profile.html' %}
+{% block username_field %}
+    Username: {{ username }}
     <br>
-    <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <h5 class="card-header">
-                    Username: {{ username }}
-                </h5>
-                <div class="card-body">
-                    <p class="card-text">
-                        Tasks registradas: {{ number_tasks }}
-                    </p>
-                </div>
-                <div class="card-footer">
-                    Issues regisradas: {{ number_issues }}
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <br><br>
-    <p style="text-align:center;">
-        <a class="btn btn-danger" href={% url 'user_profile:delete-account' username %} role="button">  Deletar conta</a>
-    </p>
+    <a href={% url 'user_profile:change-username' pk %}>
 {% endblock %}

@@ -7,7 +7,7 @@ from todosite.assert_contains import assert_contains
 
 @pytest.fixture
 def resp(client, db):
-    p = client.get(reverse('authentication:passwd-recovery'))
+    p = client.get(reverse("authentication:passwd-recovery"))
     return p
 
 
@@ -19,16 +19,16 @@ def change_password_mock(mocker):
 def test_passwd_recovery_status_code(resp):
     assert resp.status_code == 200
 
-def test_change_passwd(client, change_password_mock):
+
+def test_change_passwd(client, db, change_password_mock):
     data = client.post(
         reverse("authentication:passwd-recovery"),
         {
-            'username': "Testezin",
-            'new_password': "testezin@123",
-            'confirm_password': "testezin@123"
+            "username": "Testezin",
+            "new_password": "testezin@123",
+            "confirm_password": "testezin@123",
         },
-        secure=True
+        secure=True,
     )
 
-    user = User.objects.filter(username=username)[0]
-    assert user.uasername == "testezin@123"
+    assert data.status_code == 302

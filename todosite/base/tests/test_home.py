@@ -13,7 +13,7 @@ def resp(client, db):
 
 
 @pytest.fixture
-def authenticate(db):
+def authenticate(client, db):
     user = mommy.make(User)
     user.set_password("senha")
     user.save()
